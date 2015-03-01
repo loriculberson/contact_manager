@@ -47,5 +47,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'unicorn'
   gem 'sqlite3'
+  gem 'capybara'
 end
 
