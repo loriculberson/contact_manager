@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'the person view', type: :feature do
 
-  let(:person) { Person.create(first_name: 'John', last_name: 'Doe') }
+  let(:person) { Person.create(first_name: 'John', last_name: 'Doe', id: 1) }
 
   describe 'the phone_numbers' do
     before(:each) do
@@ -71,7 +71,13 @@ describe 'the person view', type: :feature do
         expect(page).to have_link('Add email', href: new_email_address_path(person_id: person.id))
       end
 
-
+      it 'adds a new email address' do
+        page.click_link('Add email')
+        page.fill_in('Address', with: 'emily@howdy.com')
+        page.click_button('Create Email address')
+        expect(current_path).to eq(person_path(person))
+        expect(page).to have_content('emily@howdy.com')
+      end
 
     end
 end

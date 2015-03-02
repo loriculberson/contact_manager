@@ -2,9 +2,6 @@ require 'rails_helper'
 
 RSpec.describe EmailAddressesController, type: :controller do
 
-  # This should return the minimal set of attributes required to create a valid
-  # EmailAddress. As you add validations to EmailAddress, be sure to
-  # adjust the attributes here as well.
   let(:valid_attributes) {
     { address: "email@example.com", person_id: 1}
   }
@@ -13,9 +10,6 @@ RSpec.describe EmailAddressesController, type: :controller do
     { address: nil, person_id: nil}
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # EmailAddressesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET #index" do
@@ -51,6 +45,10 @@ RSpec.describe EmailAddressesController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
+
+      let(:alice) { Person.create(first_name: 'Alice', last_name: 'Smith')}
+      let(:valid_attributes) { {address: 'alice@wonderful.com', person_id: alice.id } }
+
       it "creates a new EmailAddress" do
         expect {
           post :create, {:email_address => valid_attributes}, valid_session
@@ -63,9 +61,9 @@ RSpec.describe EmailAddressesController, type: :controller do
         expect(assigns(:email_address)).to be_persisted
       end
 
-      it "redirects to the created email_address" do
+      it "redirects to the created email_address person" do
         post :create, {:email_address => valid_attributes}, valid_session
-        expect(response).to redirect_to(EmailAddress.last)
+        expect(response).to redirect_to(alice)
       end
     end
 
